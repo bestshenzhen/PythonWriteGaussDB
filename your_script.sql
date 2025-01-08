@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+-- NACOS使用到GaussDB相关配置脚本
 create database com_mysql_nacos dbcompatibility = 'B';
 CREATE SCHEMA nacos;
 
