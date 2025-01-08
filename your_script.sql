@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 -- NACOS使用到GaussDB相关配置脚本
-create database com_mysql_nacos dbcompatibility = 'B';
-CREATE SCHEMA nacos;
-
 DROP database IF EXISTS com_mysql_nacos;
-create database com_mysql_nacos dbcompatibility = 'B';
+CREATE database com_mysql_nacos dbcompatibility = 'B';
 DROP SCHEMA IF EXISTS nacos;
 CREATE SCHEMA nacos;
 -- set CURRENT_SCHEMA TO nacos;
