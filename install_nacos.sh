@@ -6,7 +6,7 @@ sudo apt install -y wget tar curl
 
 # 下载并安装JDK 1.8+
 echo "Installing JDK 1.8+"
-JDK_URL="https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz"
+JDK_URL="https://download.oracle.com/java/23/latest/jdk-23_linux-aarch64_bin.tar.gz"
 JDK_DIR="/usr/local/jdk-17"
 
 wget -q --show-progress $JDK_URL -O jdk.tar.gz
