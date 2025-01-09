@@ -24,7 +24,7 @@ try:
     # 执行SQL脚本
     # 1.NACOS使用到GaussDB相关配置脚本
     cursor.execute("DROP database IF EXISTS com_mysql_nacos;")
-    cursor.execute(CREATE database com_mysql_nacos dbcompatibility = 'B';)
+    cursor.execute("CREATE database com_mysql_nacos dbcompatibility = 'B';")
     con.autocommit = False
     
     # 2.执行nacos数据表配置脚本
