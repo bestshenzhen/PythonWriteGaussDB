@@ -15,7 +15,7 @@ with open(sql_file_path, 'r') as file:
 # 连接到数据库
 try:
     # 创建连接对象。
-    conn=psycopg2.connect(database="database", user=user, password=password, host="127.0.0.1", port="8000")
+    conn=psycopg2.connect(database="postgres", user=user, password=password, host="127.0.0.1", port="8000")
     
     # 打开自动提交
     con.autocommit = True 
