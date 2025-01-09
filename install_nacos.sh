@@ -32,9 +32,8 @@ sudo mv /usr/local/nacos-server-2.4.3 $NACOS_DIR
 
 wget https://github.com/SweetWuXiaoMei/nacos-plugin/releases/download/NacosOpenGaussPlugin/nacos-opengauss-datasource-plugin-ext-1.0.0.jar
 
-mkdir -p $NACOS_DIR/Plugin
-cp nacos-opengauss-datasource-plugin-ext-1.0.0.jar $NACOS_DIR/Plugin/
-
+mkdir -p $NACOS_DIR/nacos/plugins
+cp nacos-opengauss-datasource-plugin-ext-1.0.0.jar $NACOS_DIR/nacos/plugins/
 
 # 配置Nacos
 echo "Configuring Nacos..."
