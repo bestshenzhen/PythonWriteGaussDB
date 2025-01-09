@@ -3,8 +3,8 @@ import psycopg2
 from psycopg2 import sql
 
 # 从环境变量中获取用户名和密码。
-user = os.getenv('USER_NAME')
-password = os.getenv('PASS_WORD')
+user = os.getenv('DB_USER')
+password = os.getenv('DB_PASS')
 
 # 读取当前目录下的SQL文件
 sql_file_path = os.path.join(os.getcwd(), 'your_script.sql')
