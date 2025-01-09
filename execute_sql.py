@@ -2,14 +2,9 @@ import os
 import psycopg2
 from psycopg2 import sql
 
-# 数据库连接配置
-db_config = {
-    'dbname': 'your_dbname',
-    'user': 'your_username',
-    'password': 'your_password',
-    'host': 'your_host',
-    'port': 'your_port'  # 默认端口是5432
-}
+# 从环境变量中获取用户名和密码。
+user = os.getenv('USER_NAME')
+password = os.getenv('PASS_WORD')
 
 # 读取当前目录下的SQL文件
 sql_file_path = os.path.join(os.getcwd(), 'your_script.sql')
@@ -19,10 +14,20 @@ with open(sql_file_path, 'r') as file:
 
 # 连接到数据库
 try:
-    conn = psycopg2.connect(**db_config)
-    cursor = conn.cursor()
+    # 创建连接对象。
+    conn=psycopg2.connect(database="database", user=user, password=password, host="127.0.0.1", port="8000")
+    
+    # 打开自动提交
+    con.autocommit = True 
+    cur=conn.cursor() #创建指针对象。
 
     # 执行SQL脚本
+    # 1.NACOS使用到GaussDB相关配置脚本
+    cursor.execute("DROP database IF EXISTS com_mysql_nacos;")
+    cursor.execute(CREATE database com_mysql_nacos dbcompatibility = 'B';)
+    con.autocommit = False
+    
+    # 2.执行nacos数据表配置脚本
     cursor.execute(sql.SQL(sql_script))
 
     # 提交事务
