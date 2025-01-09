@@ -19,14 +19,14 @@ try:
     conn=psycopg2.connect(database="postgres", user=user_env, password=password_env, host=host_env, port="8000")
     
     # 打开自动提交
-    con.autocommit = True 
+    conn.autocommit = True 
     cur=conn.cursor() #创建指针对象。
 
     # 执行SQL脚本
     # 1.NACOS使用到GaussDB相关配置脚本
-    cursor.execute("DROP database IF EXISTS com_mysql_nacos;")
-    cursor.execute("CREATE database com_mysql_nacos dbcompatibility = 'B';")
-    con.autocommit = False
+    cur.execute("DROP database IF EXISTS com_mysql_nacos;")
+    cur.execute("CREATE database com_mysql_nacos dbcompatibility = 'B';")
+    conn.autocommit = False
     
     # 2.执行nacos数据表配置脚本
     cursor.execute(sql.SQL(sql_script))
