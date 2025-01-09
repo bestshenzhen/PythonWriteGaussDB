@@ -29,7 +29,7 @@ try:
     conn.autocommit = False
     
     # 2.执行nacos数据表配置脚本
-    cursor.execute(sql.SQL(sql_script))
+    cur.execute(sql.SQL(sql_script))
 
     # 提交事务
     conn.commit()
