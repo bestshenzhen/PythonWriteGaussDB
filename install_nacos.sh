@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# 更新系统并安装必要的工具
+sudo apt update
+sudo apt install -y wget tar curl
+
+# 下载并安装JDK 1.8+
+echo "Installing JDK 1.8+"
+JDK_URL="https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz"
+JDK_DIR="/usr/local/jdk-17"
+
+wget -q --show-progress $JDK_URL -O jdk.tar.gz
+tar -xzf jdk.tar.gz -C /usr/local
+sudo mv /usr/local/jdk-* $JDK_DIR
+
+# 设置JAVA_HOME环境变量
+echo "export JAVA_HOME=$JDK_DIR" >> ~/.bashrc
+echo "export PATH=$JAVA_HOME/bin:$PATH" >> ~/.bashrc
+source ~/.bashrc
+
+# 验证JDK安装
+java -version
+
+# 下载并安装Nacos 2.4.3
+echo "Installing Nacos 2.4.3"
+NACOS_URL="https://github.com/alibaba/nacos/releases/download/2.4.3/nacos-server-2.4.3.tar.gz"
+NACOS_DIR="/usr/local/nacos"
+
+wget -q --show-progress $NACOS_URL -O nacos.tar.gz
+tar -xzf nacos.tar.gz -C /usr/local
+sudo mv /usr/local/nacos-server-2.4.3 $NACOS_DIR
+
+# 配置Nacos
+echo "Configuring Nacos..."
+NACOS_CONF="$NACOS_DIR/conf/application.properties"
+
+# 示例配置（可以根据需要进行修改）
+cat <<EOL > $NACOS_CONF
+# ************************* Server Configs **************************
+server.port=8848
+
+# ************************* Naming Service *************************
+spring.datasource.platform=mysql
+db.num=1
+db.url.0=jdbc:mysql://localhost:3306/nacos_config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true
+db.user=root
+db.password=your_mysql_password
+
+# ************************* Cluster Configs *************************
+# 支持mysql cluster和raft cluster
+# mysql cluster address example: 127.0.0.1:3306,127.0.0.2:3306,127.0.0.3:3306
+# raft cluster address example: 127.0.0.1:8847,127.0.0.1:8848,127.0.0.1:8849
+EOL
+
+# 启动Nacos
+echo "Starting Nacos..."
+$NACOS_DIR/bin/startup.sh -m standalone
+
+# 验证Nacos是否启动成功
+echo "Nacos is starting, please wait a moment..."
+sleep 10
+curl -s http://localhost:8848/nacos | grep "Nacos"
+
+if [ $? -eq 0 ]; then
+    echo "Nacos installation and startup completed successfully!"
+else
+    echo "Failed to start Nacos. Please check the logs for more information."
+fi
+
+# 清理临时文件
+rm jdk.tar.gz nacos.tar.gz
