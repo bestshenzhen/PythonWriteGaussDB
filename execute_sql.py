@@ -42,7 +42,7 @@ except (Exception, psycopg2.DatabaseError) as error:
         conn.rollback()
 
 finally:
-    if cursor:
-        cursor.close()
+    if cur:
+        cur.close()
     if conn:
         conn.close()
