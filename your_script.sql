@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-DROP SCHEMA CASCADE IF EXISTS nacos;
+DROP SCHEMA IF EXISTS nacos CASCADE;
 CREATE SCHEMA nacos;
 SET CURRENT_SCHEMA TO nacos;
 
