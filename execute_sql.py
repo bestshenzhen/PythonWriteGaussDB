@@ -3,7 +3,7 @@ import psycopg2
 from psycopg2 import sql
 
 # 从环境变量中获取用户名和密码。
-host_env = os.getenv('DB_PASS')
+host_env = os.getenv('HOST')
 user_env = os.getenv('DB_USER')
 password_env = os.getenv('DB_PASS')
 
