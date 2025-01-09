@@ -40,11 +40,13 @@ cat <<EOL > $NACOS_CONF
 server.port=8848
 
 # ************************* Naming Service *************************
-spring.datasource.platform=mysql
+
+spring.sql.init.platform=gaussdb
 db.num=1
-db.url.0=jdbc:mysql://localhost:3306/nacos_config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true
-db.user=root
-db.password=your_mysql_password
+db.url.0=jdbc:opengauss://${HOST:IP}:${PORT:8000}/com_mysql_nacos?currentSchema=nacos
+db.user=${DB_USER:root}
+db.password=${DB_PASS:123456}
+db.pool.config.driverClassName=org.opengauss.Driver
 
 # ************************* Cluster Configs *************************
 # 支持mysql cluster和raft cluster
