@@ -3,8 +3,9 @@ import psycopg2
 from psycopg2 import sql
 
 # 从环境变量中获取用户名和密码。
-user = os.getenv('DB_USER')
-password = os.getenv('DB_PASS')
+host_env = os.getenv('DB_PASS')
+user_env = os.getenv('DB_USER')
+password_env = os.getenv('DB_PASS')
 
 # 读取当前目录下的SQL文件
 sql_file_path = os.path.join(os.getcwd(), 'your_script.sql')
@@ -15,7 +16,7 @@ with open(sql_file_path, 'r') as file:
 # 连接到数据库
 try:
     # 创建连接对象。
-    conn=psycopg2.connect(database="postgres", user=user, password=password, host="127.0.0.1", port="8000")
+    conn=psycopg2.connect(database="postgres", user=user_env, password=password_env, host=host_env, port="8000")
     
     # 打开自动提交
     con.autocommit = True 
