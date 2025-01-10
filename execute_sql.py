@@ -30,6 +30,7 @@ try:
     conn.autocommit = False
     
     # 2.执行nacos数据表配置脚本
+    conn=psycopg2.connect(database="com_mysql_nacos", user="root", password="123456", host="127.0.0.1", port="8000")
     cur.execute(sql.SQL(sql_script))
 
     # 提交事务
