@@ -6,12 +6,11 @@ sudo apt install -y wget tar curl
 
 # 下载并安装JDK 1.8+
 echo "Installing JDK 1.8+"
-JDK_URL="https://download.oracle.com/java/23/latest/jdk-23_linux-aarch64_bin.tar.gz"
-JDK_DIR="/usr/local/jdk-23"
+JDK_URL="https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.tar.gz"
+JDK_DIR="/usr/local/jdk-23.0.1"
 
 wget -q --show-progress $JDK_URL -O jdk.tar.gz
 tar -xzf jdk.tar.gz -C /usr/local
-sudo mv /usr/local/jdk-* $JDK_DIR
 
 # 设置JAVA_HOME环境变量
 echo "export JAVA_HOME=$JDK_DIR" >> ~/.bashrc
