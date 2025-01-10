@@ -4,9 +4,31 @@
 sudo apt update
 sudo apt install -y wget tar curl
 
-# 下载并安装JDK 1.8+
-echo "Installing openjdk-21"
-sudo apt install openjdk-21-jre-headless
+# 下载并安装JDK
+# echo "Installing openjdk-21"
+# sudo apt install openjdk-21-jre-headless
+
+echo "Installing jdk-23"
+JDK_URL="https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.tar.gz"
+JDK_TEMP="jdk.tar.gz"
+ 
+# 下载 JDK
+wget -q --show-progress $JDK_URL -O $JDK_TEMP
+ 
+# 解压 JDK 并获取实际目录名
+tar -xzf $JDK_TEMP -C /usr/local --strip-components=1
+JDK_DIR=$(ls /usr/local | grep -E "jdk-[0-9]+\.[0-9]+\.[0-9]+(_[0-9]+)?$" | sort -V | tail -n 1)
+ 
+# 清理下载的 tar.gz 文件
+rm $JDK_TEMP
+ 
+# 设置 JAVA_HOME 环境变量
+echo "export JAVA_HOME=/usr/local/$JDK_DIR" >> ~/.bashrc
+echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.bashrc
+source ~/.bashrc
+ 
+# 验证 JDK 安装
+java -version
 
 # 下载并安装Nacos 2.4.3
 echo "Installing Nacos 2.4.3"
