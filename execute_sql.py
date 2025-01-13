@@ -27,10 +27,13 @@ try:
     # 1.NACOS使用到GaussDB相关配置脚本
     cur.execute("DROP database IF EXISTS com_mysql_nacos;")
     cur.execute("CREATE database com_mysql_nacos dbcompatibility = 'B';")
+    # 提交事务
+    conn.commit()
     conn.autocommit = False
     
     # 2.执行nacos数据表配置脚本
     conn=psycopg2.connect(database="com_mysql_nacos", user="root", password="123456", host="127.0.0.1", port="8000")
+    cur=conn.cursor() #创建指针对象。
     print(sql.SQL(sql_script))
     cur.execute(sql.SQL(sql_script))
 
