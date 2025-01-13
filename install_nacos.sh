@@ -48,24 +48,7 @@ echo "Configuring Nacos..."
 NACOS_CONF="$NACOS_DIR/conf/application.properties"
 
 # 示例配置（可以根据需要进行修改）
-cat <<EOL > $NACOS_CONF
-# ************************* Server Configs **************************
-server.port=8848
-
-# ************************* Naming Service *************************
-
-spring.sql.init.platform=gaussdb
-db.num=1
-db.url.0=jdbc:opengauss://${HOST:IP}:${PORT:8000}/com_mysql_nacos?currentSchema=nacos
-db.user=${DB_USER:root}
-db.password=${DB_PASS:123456}
-db.pool.config.driverClassName=org.opengauss.Driver
-
-# ************************* Cluster Configs *************************
-# 支持mysql cluster和raft cluster
-# mysql cluster address example: 127.0.0.1:3306,127.0.0.2:3306,127.0.0.3:3306
-# raft cluster address example: 127.0.0.1:8847,127.0.0.1:8848,127.0.0.1:8849
-EOL
+cp application.properties  $NACOS_CONF
 
 # 启动Nacos
 echo "Starting Nacos..."
