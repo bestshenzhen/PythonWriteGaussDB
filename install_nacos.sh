@@ -33,15 +33,16 @@ java -version
 # 下载并安装Nacos 2.4.3
 echo "Installing Nacos 2.4.3"
 NACOS_URL="https://github.com/alibaba/nacos/releases/download/2.4.3/nacos-server-2.4.3.tar.gz"
-NACOS_DIR="/usr/local/nacos"
+
 
 wget -q --show-progress $NACOS_URL -O nacos.tar.gz \
 tar -xzf nacos.tar.gz -C /usr/local
 
 wget https://github.com/SweetWuXiaoMei/nacos-plugin/releases/download/NacosOpenGaussPlugin/nacos-opengauss-datasource-plugin-ext-1.0.0.jar
 
-mkdir -p $NACOS_DIR/nacos/plugins
-cp nacos-opengauss-datasource-plugin-ext-1.0.0.jar $NACOS_DIR/nacos/plugins/
+NACOS_DIR="/usr/local/nacos"
+mkdir -p $NACOS_DIR/plugins
+cp nacos-opengauss-datasource-plugin-ext-1.0.0.jar $NACOS_DIR/plugins/
 
 # 配置Nacos
 echo "Configuring Nacos..."
@@ -57,7 +58,7 @@ cd $NACOS_DIR/bin
 # 验证Nacos是否启动成功
 echo "Nacos is starting, please wait a moment..."
 sleep 10
-curl -s http://localhost:8848/nacos | grep "Nacos"
+netstat -tulnp | grep 88848
 
 if [ $? -eq 0 ]; then
     echo "Nacos installation and startup completed successfully!"
