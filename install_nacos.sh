@@ -51,7 +51,8 @@ cp application.properties  $NACOS_DIR/conf/application.properties
 
 # 启动Nacos
 echo "Starting Nacos..."
-$NACOS_DIR/bin/startup.sh -m standalone
+cd $NACOS_DIR/bin
+./startup.sh -m standalone
 
 # 验证Nacos是否启动成功
 echo "Nacos is starting, please wait a moment..."
