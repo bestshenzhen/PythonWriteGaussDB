@@ -45,10 +45,9 @@ cp nacos-opengauss-datasource-plugin-ext-1.0.0.jar $NACOS_DIR/nacos/plugins/
 
 # 配置Nacos
 echo "Configuring Nacos..."
-NACOS_CONF="$NACOS_DIR/conf/application.properties"
 
 # 示例配置（可以根据需要进行修改）
-cp application.properties  $NACOS_CONF
+cp application.properties  $NACOS_DIR/conf/application.properties
 
 # 启动Nacos
 echo "Starting Nacos..."
