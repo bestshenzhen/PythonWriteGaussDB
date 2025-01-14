@@ -35,7 +35,7 @@ echo "Installing Nacos 2.4.3"
 NACOS_URL="https://github.com/alibaba/nacos/releases/download/2.4.3/nacos-server-2.4.3.tar.gz"
 
 
-wget -q --show-progress $NACOS_URL -O nacos.tar.gz \
+wget -q --show-progress $NACOS_URL -O nacos.tar.gz
 tar -xzf nacos.tar.gz -C /usr/local
 
 wget https://github.com/SweetWuXiaoMei/nacos-plugin/releases/download/NacosOpenGaussPlugin/nacos-opengauss-datasource-plugin-ext-1.0.0.jar
