@@ -1,0 +1,396 @@
+# The version of the Xpanse description language
+version: 1.0
+# The category of the service.
+category: compute
+# The Service provided by the ISV, the name will be shown on the console as a service.
+name: terraform-ecs-nifi
+# The version of the service, the end-user can select the version they want to deploy.
+serviceVersion: 1.0.0
+# For the users may have more than one service, the @namespace can be used to separate the clusters.
+description: This is an enhanced compute services by ISV-A.
+namespace: ISV-A
+# Icon for the service.
+icon: |
+  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAACg0lEQVR4nO2dP24TURCHf65IxwFcADVHMSUHAKfCHTeIFIocgXAEXITUVrJNjsABYg6AJaBf9MRYeiAWBTn7dmbyfdLI1vqPZvx7M7OzK+tJAAAAAAAAAAAwATNJx5IuJW2S2KWkpcUWipk53ye1T9FEOa6cv3Wwsjf3ZLdVXCVTwrDPjhLAI+XhSNK2ypIwdOZ0ecxGFzG2kE5nji2k05ljC+l05thCOp05trs43Tu3IRBECNI0Q24knTmxGzJEOpEfThAEQdyVrCkyZCXpu6Q3fxwnQyYSZG2L4SOC+MiQuaS39lhDhtBD2uC9hwxBhjiYyHsm9V9M/YP3CPI7TOoNoYc4A0Gc4V2QFZO6L0HWTOq+BJkzqfsSZAgGQwRpA/fUnYEgzuCeujO8zyFD0NQRpA3eM2nifipO5LkDWTui9B5kzqvgQZgqaOIG1gMHQGggQU5My5Pbj/h0SlixhbSKczxxbS6cyxhXQ6c2whnc4c212cfizpueLRZRXks63npWLRIYgv0gpCyWpIyFWUOTYyxBk09QcqyAtJV5J+2D3y8nyhcaFkDfDuH39JO9V4pBVEB2ZGb/ZV0rnZrjo+VqakFeSQ097rSown1fGnlSilfI1BWkEO6SHf7LPv//Laub1W3jMGCPKfgnxAkPYl68q+f2dlas8zStY0ab2omvfOylTJDJr6hNeyTjnt9TcYLqx8laGQwdCBIFOQ9iyLy+8NCbmKMsdGhjiDHuIMBHEGJcsZIRnifi5thCOp05tpBOZ45tv23e1raay8KRpC8Rt81bVldjtw42hNzck+3FKPZagZjZCuqT2kW0rVdlDi9NmE0Su5D0KqIYAAAAAAAAAACKz09haty1w+ee7QAAAABJRU5ErkJggg==
+# Reserved for CSP, HuaweiCloud,FlexibleEngine,OpenstackTestLab,PlusServer,RegioCloud and ...
+cloudServiceProvider:
+  name: HuaweiCloud
+  regions:
+    - name: ap-southeast-3
+      site: Chinese Mainland
+      area: Asia China
+billing:
+  # The supported mode of billing (`Fixed`, `Pay per Use`)
+  billingModes:
+    - Fixed
+    - Pay per Use
+  defaultBillingMode: Fixed
+serviceHostingType: self
+# The flavor of the service, the @category/@name/@version/@flavor can locate the specific service to be deployed.
+flavors:
+  serviceFlavors:
+    - name: 2vCPUs-4GB-normal
+      priority: 1
+      # The pricing of the flavor.
+      pricing:
+        # Used to calculate charges when users select 'pay_per_use' as the billing mode.
+        resourceUsage:
+          resources:
+            - deployResourceKind: vm
+              count: 1
+              properties:
+                cloud_service_type: hws.service.type.ec2
+                resource_type: hws.resource.type.vm
+                resource_spec: c7t.large.2.linux
+            - deployResourceKind: volume
+              count: 1
+              properties:
+                cloud_service_type: hws.service.type.ebs
+                resource_type: hws.resource.type.volume
+                resource_spec: SSD
+                resource_size: 1000
+                size_measure_id: 17
+            - deployResourceKind: publicIP
+              count: 1
+              properties:
+                cloud_service_type: hws.service.type.vpc
+                resource_type: hws.resource.type.bandwidth
+                resource_spec: 12_bgp
+                resource_size: 300
+                size_measure_id: 15
+          licensePrices:
+            - regionName: any
+              siteName: Chinese Mainland
+              price:
+                cost: 0.50
+                currency: CNY
+                period: hourly
+            - regionName: any
+              siteName: International
+              price:
+                cost: 0.0015
+                currency: USD
+                period: hourly
+            - regionName: eu-west-101
+              siteName: Europe
+              price:
+                cost: 0.0015
+                currency: USD
+                period: hourly
+          markUpPrices:
+            - regionName: any
+              siteName: Chinese Mainland
+              price:
+                cost: 0.50
+                currency: CNY
+                period: hourly
+            - regionName: any
+              siteName: International
+              price:
+                cost: 0.0015
+                currency: USD
+                period: hourly
+            - regionName: any
+              siteName: Europe
+              price:
+                cost: 0.0015
+                currency: USD
+                period: hourly
+        # Used to calculate charges when users do not select 'pay_per_use' as the billing mode.
+        fixedPrices:
+          - regionName: any
+            siteName: Chinese Mainland
+            price:
+              cost: 360
+              currency: CNY
+              period: monthly
+          - regionName: any
+            siteName: International
+            price:
+              cost: 35.00
+              currency: USD
+              period: monthly
+          - regionName: any
+            siteName: Europe
+            price:
+              cost: 35.00
+              currency: USD
+              period: monthly
+        isPriceOnlyForManagementLayer: false
+      # Properties for the service, which can be used by the deployment.
+      properties:
+        flavor_id: c7t.large.2
+      features:
+        - High Availability
+        - Maximum performance
+  modificationImpact:
+    isDataLost: false
+    isServiceInterrupted: true
+  isDowngradeAllowed: true
+# The contact details of the service.
+serviceProviderContactDetails:
+  emails: [ "test30@test.com","test31@test.com" ]
+  phones: [ "011-13422222222","022-13344444444" ]
+  chats: [ "test1234","test1235" ]
+  websites: [ "https://hw.com","https://hwcloud.com" ]
+# End user license agreement content of the service.
+eula: |
+  This Acceptable Use Policy ("Policy") lists prohibited conduct and content when using the services provided by or on behalf of HUAWEI CLOUD and its affiliates. This Policy is an integral part of the HUAWEI CLOUD User Agreement ("User Agreement"). The examples and restrictions listed below are not exhaustive. We may update this Policy from time to time, and the updated Policy will be posted on the Website. By continuing to use the Services, you agree to abide by the latest version of this Policy. You acknowledge and agree that we may suspend or terminate the Services if you or your users violate this Policy. Terms used in the User Agreement have the same meanings in this Policy.
+
+  Prohibited Conduct
+  When accessing or using the Services, or allowing others to access or use the Services, you may not:
+  1. Violate any local, national or international laws, regulations and rules;
+  2. Infringe or violate the rights of others, including but not limited to privacy rights or intellectual property rights;
+  3. Engage in, encourage, assist or allow others to engage in any illegal, unlawful, infringing, harmful or fraudulent behavior, including but not limited to any of the following activities: harming or attempting to harm minors in any way, pornography, illegal gambling, illegal VPN construction, Ponzi schemes, cyber attacks, phishing or damage, privately intercepting any system, program or data, monitoring service data or traffic without permission, engaging in virtual currency "mining" or virtual currency transactions;
+  4. Transmit, provide, upload, download, use or reuse, disseminate or distribute any illegal, infringing, offensive, or harmful content or materials, including but not limited to those listed in the "Prohibited Content" below;
+  5. Transmit any data, send or upload any material that contains viruses, worms, Trojan horses, time bombs, keyboard loggers, spyware, adware or any other harmful programs or similar computer code designed to adversely affect the operation or security of any computer hardware or software;
+  6. Attack, interfere with, disrupt or adversely affect any service, hardware, software, system, website or network, including but not limited to accessing or attacking any service, hardware, software, system, website or network using large amounts of automated means (including robots, crawlers, scripts or similar data gathering or extraction methods);
+  7. Access any part of the Service, account or system without authorization, or attempt to do so;
+  8. Violate or adversely affect the security or integrity of the Services, hardware, software, systems, websites or networks;
+  9. Distribute, disseminate or send unsolicited email, bulk email or other messages, promotions, advertising or solicitations (such as "spam");
+  10. Fraudulent offers of goods or services, or any advertising, promotional or other materials containing false, deceptive or misleading statements.
+deployment:
+  deployerTool:
+    # kind, Supported values are terraform, opentofu.
+    kind: terraform
+    # version, the required version of the deployer tool for the deployer scripts.
+    version: "=1.6.0"
+  serviceAvailabilityConfig:
+    - displayName: Availability Zone
+      varName: availability_zone
+      mandatory: false
+      description: The availability zone to deploy the service instance. If the value is empty, the service instance will be deployed in a random availability zone.
+  # Context for deployment: the context including some kind of parameters for the deployment, such as fix_env, fix_variable, env, variable, env_env, env_variable.
+  # - fix_env: Values for variable of this type are defined by the managed service provider in the OCL template. Runtime will inject it to deployer as environment variables. This variable is not visible to the end user.
+  # - fix_variable: Values for variable of this type are defined by the managed service provider in the OCL template. Runtime will inject it to deployer as usual variables. This variable is not visible to the end user.
+  # - env: Value for a variable of this type can be provided by end user. If marked as mandatory then end user must provide value to this variable. If marked as optional and if end user does not provided it, then the fallback value to this variable is read by runtime (it can read from other sources, e.g., OS env variables). This variable is injected as a environment variable to the deployer.
+  # - variable: Value for a variable of this type can be provided by end user. . If marked as mandatory then end user must provide value to this variable. If marked as optional and if end user does not provided it, then the fallback value to this variable is read by runtime (it can read from other sources, e.g., OS env variables). This variable is injected as a regular variable to the deployer.
+  # - env_env: Value to this variable is read by runtime (it can read from other sources, e.g., OS env variables) and injected as a environment variable to the deployer. End user cannot see or change this variable.
+  # - env_variable: Value to this variable is read by runtime (it can read from other sources, e.g., OS env variables) and injected as a regular variable to the deployer. End user cannot see or change this variable.
+  # The parameters will be used to generate the API of the managed service.
+  variables:
+    - name: image_name
+      description: The image name of the compute instance. If the value is empty, will use the default value to create compute instance.
+      kind: variable
+      dataType: string
+      example: "Ubuntu 22.04 server 64bit"
+      mandatory: false
+      value: "Ubuntu 22.04 server 64bit"
+      modificationImpact:
+        isDataLost: false
+        isServiceInterrupted: true
+    - name: vpc_name
+      description: The vpc name of the compute instance. If the value is empty, will use the default value to find or create VPC.
+      kind: variable
+      dataType: string
+      example: "ecs-vpc-default"
+      mandatory: false
+      value: "ecs-vpc-default"
+      modificationImpact:
+        isDataLost: false
+        isServiceInterrupted: true
+    - name: subnet_name
+      description: The sub network name of the compute instance. If the value is empty, will use the default value to find or create subnet.
+      kind: variable
+      dataType: string
+      example: "ecs-subnet-default"
+      mandatory: false
+      value: "ecs-subnet-default"
+      modificationImpact:
+        isDataLost: false
+        isServiceInterrupted: true
+    - name: secgroup_name
+      description: The security group name of the compute instance. If the value is empty, will use the default value to find or create security group.
+      kind: variable
+      dataType: string
+      example: "ecs-secgroup-default"
+      mandatory: false
+      value: "ecs-secgroup-default"
+      modificationImpact:
+        isDataLost: false
+        isServiceInterrupted: true
+  deployer: |
+    provider "huaweicloud" {
+      region     = "ap-southeast-3"  # 替换为你的区域
+    }
+    
+    
+    terraform {
+      required_providers {
+      huaweicloud = {
+      source  = "huaweicloud/huaweicloud"
+      version = "~> 1.71.2"
+      }
+      random = {
+      version = "~> 3.6.3"
+      }
+    }
+    }
+    
+    
+    data "huaweicloud_availability_zones" "myaz" {
+    }
+    
+      data "huaweicloud_compute_flavors" "myflavor" {
+      availability_zone = data.huaweicloud_availability_zones.myaz.names[0]
+      performance_type  = "computingv3"
+      cpu_core_count    = 16
+      memory_size       = 32
+    }
+    
+      data "huaweicloud_images_image" "myimage" {
+      name        = "Ubuntu 22.04 server 64bit"
+      most_recent = true
+    }
+    
+      data "huaweicloud_vpc_subnet" "mynet" {
+      name = "subnet-2293"
+    }
+    
+      data "huaweicloud_networking_secgroup" "mysecgroup" {
+      name = "juju-czq"
+    }
+    
+      resource "random_password" "password" {
+      length           = 24
+      special          = true
+      override_special = "!@#$%*"
+    }
+    
+      locals {
+      admin_pwd  = random_password.password.result
+      instance_public_ip = huaweicloud_vpc_eip.myeip.address
+    }
+    
+      resource "huaweicloud_compute_instance" "myinstance" {
+    
+      name               = "ecs_gaussdb_czq_test"
+      admin_pass         = local.admin_pwd
+      #"Czqchang12qw@@@"
+      #random_password.password.result
+      image_id           = data.huaweicloud_images_image.myimage.id
+      flavor_id          = data.huaweicloud_compute_flavors.myflavor.ids[0]
+      availability_zone  = data.huaweicloud_availability_zones.myaz.names[0]
+      security_group_ids = [data.huaweicloud_networking_secgroup.mysecgroup.id]
+      #depends_on = [huaweicloud_compute_keypair.my-keypair-czq]
+      #key_pair = huaweicloud_compute_keypair.my-keypair-czq.name
+    
+      system_disk_type = "SAS"
+      system_disk_size = 300
+      
+      data_disks {
+      type = "SAS"
+      size = "280"
+      }
+      data_disks {
+      type = "SAS"
+      size = "20"
+      }
+    
+      delete_disks_on_termination = true
+      
+      network {
+      uuid = data.huaweicloud_vpc_subnet.mynet.id
+      }
+    
+      user_data = <<-EOF
+      #!bin/bash
+      echo 'root:${local.admin_pwd}' | chpasswd
+      echo '${local.admin_pwd}' >> /tmp/a.txt
+      
+      # 1.安装python
+      sudo apt update
+      sudo apt install python3 -y
+      pip3 install psycopg2-binary
+      
+      # 2.校验版本
+      python3 --version
+      output=$(python3 --version)
+      echo "$output" >> /tmp/a.txt
+      
+      # 3.设置GaussDB环境变量
+      echo 'export HOST="119.13.106.246"' >> /root/.bashrc
+      echo 'export PORT="8000"' >> /root/.bashrc
+      echo 'export DB_USER="root"' >> /root/.bashrc
+      echo 'export DB_PASS="Czq12qw@"' >> /root/.bashrc
+      
+      export HOST="119.13.106.246" \
+      export PORT="8000" \
+      export DB_USER="root" \
+      export DB_PASS="Czq12qw@" \
+      source /root/.bashrc
+      
+      echo $HOST >> /tmp/a.txt
+      
+      # 4.下载项目文件
+      git clone https://github.com/bestshenzhen/PythonWriteGaussDB.git
+      output=$(ls -l)
+      echo "$output" >> /tmp/a.txt
+      
+      output=$(pwd)
+      echo "$output" >> /tmp/a.txt
+      
+      # 5.使用python，初始化nacos依赖的数据库、schema、数据表
+      cd PythonWriteGaussDB/
+      output=$(pwd)
+      echo "$output" >> /tmp/a.txt
+      sed -i 's/database="postgres", user="root", password="123456", host="127.0.0.1", port="8000"/database="postgres", user="root", password="Czq12qw\@", host="119.13.106.246", port="8000"/g' execute_sql.py
+      sed -i 's/database="com_mysql_nacos", user="root", password="123456", host="127.0.0.1", port="8000"/database="com_mysql_nacos", user="root", password="Czq12qw\@", host="119.13.106.246", port="8000"/g' execute_sql.py
+      python3 execute_sql.py
+      
+      # 6.安装nacos及初始化配置
+      chmod +x install_nacos.sh
+      echo "chmod" >> /tmp/a.txt
+      output=$(ls -l)
+      echo "$output" >> /tmp/a.txt
+      ./install_nacos.sh
+      echo "install_nacos" >> /tmp/a.txt
+      
+      EOF
+    }
+    
+      resource "huaweicloud_vpc_eip" "myeip" {
+      publicip {
+      type = "5_bgp"
+    }
+      bandwidth {
+      name        = "mybandwidth"
+      size        = 100
+      share_type  = "PER"
+      charge_mode = "traffic"
+    }
+    }
+    
+      resource "huaweicloud_compute_eip_associate" "associated" {
+      public_ip   = huaweicloud_vpc_eip.myeip.address
+      instance_id = huaweicloud_compute_instance.myinstance.id
+    }
+    
+      data "huaweicloud_networking_secgroup_rules" "secgroup_rule" {
+      security_group_id = data.huaweicloud_networking_secgroup.mysecgroup.id
+    }
+    
+      resource "huaweicloud_networking_secgroup_rule" "test" {
+      security_group_id = data.huaweicloud_networking_secgroup.mysecgroup.id
+      direction         = "ingress"
+      ethertype         = "IPv4"
+      protocol          = "tcp"
+      port_range_min    = 8000
+      port_range_max    = 8000
+      # 使用新的插值语法
+      # remote_ip_prefix = "${huaweicloud_vpc_eip.myeip.address}/32"
+      # 或者使用 format 函数（对于更复杂的字符串格式化很有用）
+      remote_ip_prefix = format("%s/32", huaweicloud_vpc_eip.myeip.address)
+    }
+    
+    output "admin_passwd" {
+      value = nonsensitive(local.admin_pwd)
+    }
+    
+      output "ecs-host" {
+      value = huaweicloud_compute_instance.myinstance.access_ip_v4
+    }
+    
+      output "ecs-public-ip" {
+      value = huaweicloud_vpc_eip.myeip.address
+    }
