@@ -1,0 +1,54 @@
+#!/bin/bash
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+echo "Verifying Helm installation..."
+helm version
+
+# 安装helm-s3插件
+helm plugin install https://github.com/hypnoglow/helm-s3.git
+
+# 设置环境变量
+export AWS_ACCESS_KEY_ID=xxx
+export AWS_SECRET_ACCESS_KEY=xxx
+export AWS_DEFAULT_REGION=cn-south-1
+export AWS_ENDPOINT="obs.cn-south-1.myhuaweicloud.com"
+export AWS_DISABLE_SSL=true
+
+#创建新的存储库
+helm s3 init s3://minio-4dc9/charts
+
+# 按名称使用此仓库
+helm repo add mynewrepo s3://minio-4dc9/charts
+
+# 编写zookeeper、edge-service、admin-service、admin-website、authentication-server、resource-server的chart yaml
+Chart地址：https://gitcode.com/moseszane168/open-source-for-huawei-demo-chart/overview
+
+# 打包和发布
+helm package ./admin-service
+helm package ./admin-website
+helm package ./authentication-server
+helm package ./edge-service
+helm package ./resource-server
+helm package ./zookeeper-test
+
+# 推送chart到OBS
+helm s3 push ./admin-service-0.1.0.tgz mynewrepo
+helm s3 push ./admin-website-0.1.0.tgz mynewrepo执行helm安装应用的过
+helm s3 push ./authentication-server-0.1.0.tgz mynewrepo
+helm s3 push ./edge-service-0.1.0.tgz mynewrepo
+helm s3 push ./resource-server-0.1.0.tgz mynewrepo
+helm s3 push ./zookeeper-test-0.1.0.tgz mynewrepo
+
+# 从OBS拉取chart
+helm pull s3://minio-4dc9/charts/admin-service-0.1.0.tgz
+helm pull s3://minio-4dc9/charts/admin-website-0.1.0.tgz
+helm pull s3://minio-4dc9/charts/authentication-server-0.1.0.tgz
+helm pull s3://minio-4dc9/charts/edge-service-0.1.0.tgz
+helm pull s3://minio-4dc9/charts/resource-server-0.1.0.tgz
+helm pull s3://minio-4dc9/charts/zookeeper-test-0.1.0.tgz
+
+# 将chart包上传到CCE应用模板安装
+helm install s3://minio-4dc9/charts/zookeeper-test-0.1.0.tgz
